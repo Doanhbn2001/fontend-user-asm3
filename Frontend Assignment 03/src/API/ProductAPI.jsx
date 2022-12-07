@@ -1,25 +1,42 @@
+import axios from 'axios';
 import axiosClient from './axiosClient';
 
 const ProductAPI = {
-	getAPI: () => {
-		const url = '/products';
-		return axiosClient.get(url);
-	},
+  getAPI: () => {
+    return axios({
+      method: 'get',
+      url: 'http://localhost:5000/products/get-all-products',
+      // credentials: 'include',
+      withCredentials: true,
+    });
+  },
 
-	getCategory: (query) => {
-		const url = `/products/category${query}`;
-		return axiosClient.get(url);
-	},
+  getCategory: (query) => {
+    const url = `/products/category${query}`;
+    return axiosClient.get(url);
+  },
 
-	getDetail: (id) => {
-		const url = `/products/${id}`;
-		return axiosClient.get(url);
-	},
+  getDetail: (id) => {
+    console.log('f1');
 
-	getPagination: (query) => {
-		const url = `/products/pagination${query}`;
-		return axiosClient.get(url);
-	},
+    return axios({
+      method: 'get',
+      url: `http://localhost:5000/products/${id}`,
+      // credentials: 'include',
+      withCredentials: true,
+    });
+  },
+
+  getPagination: (query) => {
+    console.log(query);
+    // const url = `/products/`;
+    return axios({
+      method: 'get',
+      url: `http://localhost:5000/products/pagination${query}`,
+      // credentials: 'include',
+      withCredentials: true,
+    });
+  },
 };
 
 export default ProductAPI;

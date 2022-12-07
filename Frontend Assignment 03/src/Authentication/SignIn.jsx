@@ -34,7 +34,7 @@ function SignIn(props) {
   useEffect(() => {
     const fetchData = async () => {
       const response = await UserAPI.getAllData();
-      setUser(response.users);
+      setUser(response.data.users);
     };
 
     fetchData();
@@ -84,6 +84,11 @@ function SignIn(props) {
               return;
             } else {
               setErrorPassword(false);
+              const fetchData = async () => {
+                UserAPI.postSignIn(findUser);
+              };
+
+              fetchData();
 
               localStorage.setItem('id_user', findUser._id);
 
