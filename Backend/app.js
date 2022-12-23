@@ -19,8 +19,9 @@ const store = new MongoDbStore({
   collection: 'sessions',
 });
 
-const adminRoutes = require('./routes/admin');
+const userRoutes = require('./routes/user');
 const productRoutes = require('./routes/product');
+const adminRoutes = require('./routes/admin');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -55,8 +56,14 @@ app.use((req, res, next) => {
     });
 });
 
-app.use(adminRoutes);
+app.use(userRoutes);
 app.use(productRoutes);
+
+// app.use((req, res, next) => {
+//   console.log(req.session);
+//   next();
+// });
+app.use(adminRoutes);
 
 mongooose
   .connect(MONGODB_URI)

@@ -49,9 +49,6 @@ function SignIn(props) {
   };
 
   const onSubmit = () => {
-    console.log(user);
-    console.log(password);
-
     if (!email) {
       setErrorEmail(true);
       return;

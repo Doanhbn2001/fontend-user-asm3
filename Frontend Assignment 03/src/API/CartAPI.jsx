@@ -3,7 +3,6 @@ import axios from 'axios';
 
 const CartAPI = {
   getCarts: (query) => {
-    console.log(query);
     return axios({
       method: 'get',
       url: `http://localhost:5000/carts${query}`,
@@ -14,17 +13,31 @@ const CartAPI = {
 
   postAddToCart: (query) => {
     const url = `/carts/add${query}`;
-    return axiosClient.post(url);
+    return axios({
+      method: 'post',
+      url: `http://localhost:5000/carts/addCart${query}`,
+      // credentials: 'include',
+      withCredentials: true,
+    });
   },
 
   deleteToCart: (query) => {
     const url = `/carts/delete${query}`;
-    return axiosClient.delete(url);
+    return axios({
+      method: 'delete',
+      url: `http://localhost:5000/carts/delete${query}`,
+      // credentials: 'include',
+      withCredentials: true,
+    });
   },
 
   putToCart: (query) => {
-    const url = `/carts/update${query}`;
-    return axiosClient.put(url);
+    console.log(query);
+    return axios({
+      method: 'put',
+      url: `http://localhost:5000/carts/update${query}`,
+      withCredentials: true,
+    });
   },
 };
 

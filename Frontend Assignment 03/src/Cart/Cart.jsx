@@ -32,18 +32,18 @@ function Cart(props) {
 
   //Hàm này dùng để Load dữ liệu ở Redux
   //Khi người dùng chưa đăng nhập
-  useEffect(() => {
-    console.log(id_user);
-    const fetchDataRedux = () => {
-      if (!localStorage.getItem('id_user')) {
-        setCart(listCart);
+  // useEffect(() => {
+  //   console.log(id_user);
+  //   const fetchDataRedux = () => {
+  //     if (!localStorage.getItem('id_user')) {
+  //       setCart(listCart);
 
-        getTotal(listCart);
-      }
-    };
+  //       getTotal(listCart);
+  //     }
+  //   };
 
-    fetchDataRedux();
-  }, [loadRedux]);
+  //   fetchDataRedux();
+  // }, [loadRedux]);
 
   //Hàm này dùng để tính tổng tiền carts
   function getTotal(carts) {
@@ -51,7 +51,7 @@ function Cart(props) {
 
     const sum_total = carts.map((value) => {
       return (sub_total +=
-        parseInt(value.priceProduct) * parseInt(value.count));
+        parseInt(value.productId.price) * parseInt(value.quantity));
     });
 
     setTotal(sub_total);
@@ -71,10 +71,18 @@ function Cart(props) {
         console.log(query);
 
         const response = await CartAPI.getCarts(query);
-        // console.log(response);
-        setCart(response.data.products);
+        console.log(response);
+        if (response.data.error) {
+          alertify.set('notifier', 'position', 'bottom-left');
+          alertify.error('Your must signin to use your cart!');
+        } else {
+          setCart(response.data.products);
 
-        getTotal(response.data.products);
+          getTotal(response.data.products);
+        }
+      } else {
+        alertify.set('notifier', 'position', 'bottom-left');
+        alertify.error('Your must signin to use your cart!');
       }
     };
 
@@ -84,8 +92,8 @@ function Cart(props) {
   }, [loadAPI]);
 
   //Hàm này dùng để truyền xuống cho component con xử và trả ngược dữ liệu lại component cha
-  const onDeleteCart = (getUser, getProduct) => {
-    console.log('idUser: ' + getUser + ', idProduct: ' + getProduct);
+  const onDeleteCart = (getProduct) => {
+    console.log(getProduct);
 
     if (localStorage.getItem('id_user')) {
       // user đã đăng nhập
@@ -93,30 +101,33 @@ function Cart(props) {
       //Sau khi nhận được dữ liệu ở component con truyền lên thì sẽ gọi API xử lý dữ liệu
       const fetchDelete = async () => {
         const params = {
-          idUser: getUser,
           idProduct: getProduct,
         };
 
         const query = '?' + queryString.stringify(params);
 
         const response = await CartAPI.deleteToCart(query);
-        console.log(response);
+        if (response.data.error) {
+          alertify.set('notifier', 'position', 'bottom-left');
+          alertify.error('Your must signin to use your cart!');
+        } else {
+          console.log(response);
+          alertify.set('notifier', 'position', 'bottom-left');
+          alertify.error('Bạn Đã Xóa Hàng Thành Công!');
+        }
       };
 
       fetchDelete();
 
       //Sau đó thay đổi state loadAPI và load lại hàm useEffect
       setLoadAPI(true);
-
-      alertify.set('notifier', 'position', 'bottom-left');
-      alertify.error('Bạn Đã Xóa Hàng Thành Công!');
     } else {
       // user chưa đăng nhập
 
       //Nếu không có phiên làm việc của Session User thì mình sẽ xử lý với Redux
       const data = {
         idProduct: getProduct,
-        idUser: getUser,
+        // idUser: getUser,
       };
 
       //Đưa dữ liệu vào Redux
@@ -135,15 +146,8 @@ function Cart(props) {
   };
 
   //Hàm này dùng để truyền xuống cho component con xử và trả ngược dữ liệu lại component cha
-  const onUpdateCount = (getUser, getProduct, getCount) => {
-    console.log(
-      'Count: ' +
-        getCount +
-        ', idUser: ' +
-        getUser +
-        ', idProduct: ' +
-        getProduct
-    );
+  const onUpdateCount = (getProduct, getCount) => {
+    console.log('Count: ' + getCount + ', idProduct: ' + getProduct);
 
     if (localStorage.getItem('id_user')) {
       // user đã đăng nhập
@@ -151,7 +155,7 @@ function Cart(props) {
       //Sau khi nhận được dữ liệu ở component con truyền lên thì sẽ gọi API xử lý dữ liệu
       const fetchPut = async () => {
         const params = {
-          idUser: getUser,
+          //   idUser: getUser,
           idProduct: getProduct,
           count: getCount,
         };
@@ -159,23 +163,25 @@ function Cart(props) {
         const query = '?' + queryString.stringify(params);
 
         const response = await CartAPI.putToCart(query);
-        console.log(response);
+        if (response.data.error) {
+          alertify.set('notifier', 'position', 'bottom-left');
+          alertify.error('Your must signin to use your cart!');
+        } else {
+          console.log(response);
+          alertify.set('notifier', 'position', 'bottom-left');
+          alertify.success('Bạn Đã Sửa Hàng Thành Công!');
+        }
       };
 
       fetchPut();
 
       //Sau đó thay đổi state loadAPI và load lại hàm useEffect
       setLoadAPI(true);
-
-      console.log('Ban Da Dang Nhap!');
-
-      alertify.set('notifier', 'position', 'bottom-left');
-      alertify.success('Bạn Đã Sửa Hàng Thành Công!');
     } else {
       //Nếu không có phiên làm việc của Session User thì mình sẽ xử lý với Redux
       const data = {
         idProduct: getProduct,
-        idUser: getUser,
+        // idUser: getUser,
         count: getCount,
       };
 

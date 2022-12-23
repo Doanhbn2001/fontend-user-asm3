@@ -201,18 +201,22 @@ function Detail(props) {
         const query = '?' + queryString.stringify(params);
 
         const response = await CartAPI.postAddToCart(query);
-
-        console.log(response);
+        if (response.data.error) {
+          alertify.set('notifier', 'position', 'bottom-left');
+          alertify.error('Your must signin to use your cart!');
+        } else {
+          console.log(response);
+          alertify.set('notifier', 'position', 'bottom-left');
+          alertify.success('Sucessfull!');
+        }
       };
-
       fetchPost();
     } else {
-      const action = addCart(data);
-      dispatch(action);
+      alertify.set('notifier', 'position', 'bottom-left');
+      alertify.error('Your must signin to use your cart!');
+      // const action = addCart(data);
+      // dispatch(action);
     }
-
-    alertify.set('notifier', 'position', 'bottom-left');
-    alertify.success('Bạn Đã Thêm Hàng Thành Công!');
   };
 
   return (
