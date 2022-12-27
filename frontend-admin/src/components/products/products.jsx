@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import AdminAPI from '../../API/AdminAPI';
 import convertMoney from '../../convertMoney';
 import { Input } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 const Products = () => {
   // let navigate = useNavigate();
@@ -40,13 +41,23 @@ const Products = () => {
     const fetchData = async () => {
       const response = await AdminAPI.deleteProduct(t._id);
       console.log(response);
+      if (response.data.error) {
+        alert('Login to delete product!');
+        window.location.reload(false);
+      } else {
+        if (!response.data.ok) {
+          alert('This product exists in carts! Can not delete this product!');
+        } else {
+          alert('Successfully!');
+        }
+      }
     };
     fetchData();
   };
 
   return (
     <div>
-      <h1 className="title">Products</h1>
+      <h1 className="titleh1">Products</h1>
       <div className="search">
         <Input
           type="text"
@@ -91,7 +102,9 @@ const Products = () => {
                     <td>{t.category}</td>
                     <td>
                       <div className="btn-b">
-                        <button className="btn-edit">Update</button>
+                        <Link to={`/${t._id}`}>
+                          <button className="btn-edit">Update</button>
+                        </Link>
                         <button
                           className="btn-delete"
                           onClick={() => handleDelete(t)}

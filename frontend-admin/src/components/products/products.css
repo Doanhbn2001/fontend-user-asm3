@@ -1,11 +1,11 @@
 body {
   color: #8e8590;
 }
-.title {
+.titleh1 {
   color: black;
   margin-left: 2.5%;
   margin-top: 20px;
-  margin-bottom: 20px;
+  font-size: 30px;
 }
 .btn-b {
   padding: 10px;

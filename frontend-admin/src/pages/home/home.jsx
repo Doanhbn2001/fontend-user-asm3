@@ -1,7 +1,8 @@
 import './home.css';
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Products from '../../components/hotels/products';
+import Products from '../../components/products/products';
+import UpdateProduct from '../../components/update-product/update-product';
 // import { Route, Routes } from "react-router-dom";
 // import Sidebar from "../../components/sidebar/sidebar";
 // import Transactions from "../../components/transaction/transaction";
@@ -19,6 +20,8 @@ const Home = ({ setAdmin }) => {
       {/* <div className="row"> */}
       <Routes>
         <Route exact path="/" element={<Products />} />
+        <Route exact path="/:id" element={<UpdateProduct />} />
+
         {/* <Route path="/ff" component={<div>2</div>} /> */}
       </Routes>
       {/* </div> */}

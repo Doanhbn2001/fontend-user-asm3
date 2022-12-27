@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
       api_key:
-        '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',
+        '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',
     },
   })
 );
@@ -102,10 +102,10 @@ exports.postEmail = (req, res, next) => {
   // const fullName: req.query.fullname;
   // transporter.sendMail({
   //   to: 'doanh2001bn@gmail.com',
-  //   from: 'doanhnhfx16801@funix.edu.vn',
+  //   from: 'doanh2001bn@gmail.com',
   //   subject: `Xin chao ${req.query.fullname}`,
   //   text: 'Hello world!', // plain text body
-  //   html: '<b>Hello world!</b>', // html body
+  //    html: `<b>Hello world!</b> <h1>${req.query.phone}<h1> <img src="https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fiphone_11_2.jpeg?alt=media&token=2e8b6c8e-56fa-4cfd-86c4-9be2ee6205e0"/>`, // html body
   // });
   req.user
     .populate('cart.items.productId')

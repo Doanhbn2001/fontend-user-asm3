@@ -28,6 +28,23 @@ const AdminAPI = {
       withCredentials: true,
     });
   },
+
+  getProduct: (query) => {
+    return axios({
+      method: 'get',
+      url: `http://localhost:5000/admin/get-product/${query}`,
+      withCredentials: true,
+    });
+  },
+
+  updateProduct: (product, id) => {
+    return axios({
+      method: 'post',
+      url: `http://localhost:5000/admin/update-product/${id}`,
+      data: product,
+      withCredentials: true,
+    });
+  },
 };
 
 export default AdminAPI;

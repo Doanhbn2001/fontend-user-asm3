@@ -11,6 +11,14 @@ router.post('/admin/signin', adminController.signIn);
 
 router.get('/admin/get-products', is_Admin, adminController.getProducts);
 
+router.get('/admin/get-product/:id', is_Admin, adminController.getProduct);
+
 router.delete('/admin/delete-product', is_Admin, adminController.deleteProduct);
+
+router.post(
+  '/admin/update-product/:id',
+  is_Admin,
+  adminController.updateProduct
+);
 
 module.exports = router;

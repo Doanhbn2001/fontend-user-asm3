@@ -36,5 +36,70 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.deleteProduct = (req, res, next) => {
-  console.log(req.query);
+  const id = req.query.id;
+  User.find()
+    .then((users) => {
+      const pro = [];
+      users.forEach((u) => {
+        u.cart.items.forEach((i) => {
+          pro.push(i.productId.toString());
+        });
+      });
+      // console.log(pro);
+      return pro;
+    })
+    .then((pro) => {
+      // console.log(id);
+      if (pro.includes(id)) {
+        res.json({ ok: false });
+      } else {
+        Product.findByIdAndRemove(id).then(() => {
+          res.json({ ok: true });
+        });
+      }
+    });
+};
+
+exports.getProduct = (req, res, next) => {
+  const id = req.params.id;
+  Product.findById(id)
+    .then((product) => {
+      if (!product) {
+        res.json({ error: true });
+      } else {
+        res.json({ product: product });
+      }
+    })
+    .catch((err) => {
+      res.json({ error: true });
+    });
+};
+
+exports.updateProduct = (req, res, next) => {
+  const id = req.params.id;
+  const product = req.body;
+  User.find()
+    .then((users) => {
+      const pro = [];
+      users.forEach((u) => {
+        u.cart.items.forEach((i) => {
+          pro.push(i.productId.toString());
+        });
+      });
+      return pro;
+    })
+    .then((pro) => {
+      // console.log(id);
+      if (pro.includes(id)) {
+        res.json({ ok: false });
+      } else {
+        Product.findByIdAndUpdate({ _id: id }, product)
+          .then(() => {
+            res.json({ ok: true });
+          })
+          .catch((err) => {
+            res.json({ ok: false });
+          });
+      }
+    });
 };
