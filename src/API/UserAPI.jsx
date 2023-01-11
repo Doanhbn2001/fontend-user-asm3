@@ -1,6 +1,6 @@
 import axios from 'axios';
 import axiosClient from './axiosClient';
-const url = 'http://localhost:5000/';
+const url = require('./Url');
 
 const UserAPI = {
   getAllData: () => {
@@ -9,9 +9,7 @@ const UserAPI = {
     // console.log('f22');
     return axios({
       method: 'get',
-      //url: 'https://backend-asm3.vercel.app/users/get-users',
       url: `${url}users/get-users`,
-      // credentials: 'include',
       withCredentials: true,
     });
   },
