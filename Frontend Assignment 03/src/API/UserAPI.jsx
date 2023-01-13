@@ -1,5 +1,6 @@
 import axios from 'axios';
 import axiosClient from './axiosClient';
+const url = require('./Url');
 
 const UserAPI = {
   getAllData: () => {
@@ -8,8 +9,7 @@ const UserAPI = {
     // console.log('f22');
     return axios({
       method: 'get',
-      url: 'http://localhost:5000/users/get-users',
-      // credentials: 'include',
+      url: `${url}users/get-users`,
       withCredentials: true,
     });
   },
@@ -21,13 +21,23 @@ const UserAPI = {
 
   postSignUp: (query) => {
     const url = `/users/signup/${query}`;
-    return axiosClient.post(url);
+    return axios({
+      method: 'post',
+      //url: `https://backend-asm3.vercel.app/users/signup/${query}`,
+      url: `${url}users/signup/${query}`,
+
+      //credentials: 'include',
+      withCredentials: true,
+    });
   },
 
   postSignIn: (user) => {
+    console.log(user);
     return axios({
       method: 'post',
-      url: 'http://localhost:5000/users/signin',
+      //url: 'https://backend-asm3.vercel.app/users/signin',
+      url: `${url}users/signin`,
+
       data: user,
       withCredentials: true,
     });
@@ -37,7 +47,8 @@ const UserAPI = {
     console.log('f1');
     return axios({
       method: 'get',
-      url: 'http://localhost:5000/users/logout',
+      //url: 'https://backend-asm3.vercel.app/users/logout',
+      url: `${url}users/logout`,
       withCredentials: true,
       credentials: 'include',
       // credentials: 'same-origin',

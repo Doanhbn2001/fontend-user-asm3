@@ -1,5 +1,6 @@
 import axiosClient from './axiosClient';
 import axios from 'axios';
+const url = require('./Url');
 
 const HistoryAPI = {
   getHistoryAPI: () => {
@@ -7,7 +8,8 @@ const HistoryAPI = {
     // const url = `/histories${query}`;
     return axios({
       method: 'get',
-      url: `http://localhost:5000/histories`,
+      //url: `https://backend-asm3.vercel.app/histories`,
+      url: `${url}histories`,
       // credentials: 'include',
       withCredentials: true,
     });

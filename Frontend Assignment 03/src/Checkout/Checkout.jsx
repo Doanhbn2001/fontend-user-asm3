@@ -118,7 +118,23 @@ function Checkout(props) {
               setPhoneError(false);
               setAddressError(true);
             } else {
-              console.log('Thanh Cong');
+              const sendMail = async () => {
+                const params = {
+                  to: email,
+                  fullname: fullname,
+                  phone: phone,
+                  address: address,
+                  idUser: localStorage.getItem('id_user'),
+                };
+
+                const query = '?' + queryString.stringify(params);
+
+                const response = await CheckoutAPI.postEmail(query);
+
+                console.log(response);
+              };
+
+              sendMail();
 
               setLoad(!load);
             }
@@ -131,24 +147,6 @@ function Checkout(props) {
   //Hàm này bắt đầu gửi Email xác nhận đơn hàng
   useEffect(() => {
     if (load) {
-      const sendMail = async () => {
-        const params = {
-          to: email,
-          fullname: fullname,
-          phone: phone,
-          address: address,
-          idUser: localStorage.getItem('id_user'),
-        };
-
-        const query = '?' + queryString.stringify(params);
-
-        const response = await CheckoutAPI.postEmail(query);
-
-        console.log(response);
-      };
-
-      sendMail();
-
       const data = localStorage.getItem('id_user');
 
       // Gửi socket lên server

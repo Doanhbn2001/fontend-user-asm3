@@ -1,11 +1,14 @@
 import axios from 'axios';
 import axiosClient from './axiosClient';
+const url = require('./Url');
+// const url = 'http://localhost:5000/';
 
 const ProductAPI = {
   getAPI: () => {
     return axios({
       method: 'get',
-      url: 'http://localhost:5000/products/get-all-products',
+      //url: 'https://backend-asm3.vercel.app/products/get-all-products',
+      url: `${url}products/get-all-products`,
       // credentials: 'include',
       withCredentials: true,
     });
@@ -21,7 +24,9 @@ const ProductAPI = {
 
     return axios({
       method: 'get',
-      url: `http://localhost:5000/products/${id}`,
+      //url: `https://backend-asm3.vercel.app/products/${id}`,
+      url: `${url}products/${id}`,
+
       // credentials: 'include',
       withCredentials: true,
     });
@@ -32,7 +37,9 @@ const ProductAPI = {
     // const url = `/products/`;
     return axios({
       method: 'get',
-      url: `http://localhost:5000/products/pagination${query}`,
+      //url: `https://backend-asm3.vercel.app/products/pagination${query}`,
+      url: `${url}products/pagination${query}`,
+
       // credentials: 'include',
       withCredentials: true,
     });
