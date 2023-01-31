@@ -1,4 +1,3 @@
-import axiosClient from './axiosClient';
 import axios from 'axios';
 const url = require('./Url');
 
